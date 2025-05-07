@@ -1,14 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  useMode,
-  ParseMode,
-  useLoading,
-  useFiles,
-} from "@/app/original-position-for/client/atoms";
-import { useParsePosition } from "../../single/client/hooks/use-parse-position";
-import { useParseStack } from "../../multi/client/hooks/use-parse-stack";
+import { useMode, ParseMode, useLoading, useFiles } from "./atoms";
+import { useParsePosition } from "./use-parse-position";
+import { useParseStack } from "./use-parse-stack";
 
 interface SubmitButtonProps {
   children?: React.ReactNode;

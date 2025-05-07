@@ -1,18 +1,18 @@
 import { Card } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
-import { AtomsRoot } from "./client/atoms";
-import { UploadedFiles } from "../client/components/uploaded-files";
-import { LineInput } from "./client/components/line-input";
-import { ColumnInput } from "./client/components/column-input";
-import { UploadFiles } from "../client/components/upload-files";
-import { ClearFilesButton } from "../client/components/clear-files-button";
-import { Results } from "../client/components/results";
-import { SubmitButton } from "../client/components/submit-button";
-import { FileSelect } from "./client/components/file-select";
+import { SingleAtomsRoot } from "@/features/original-position-for/atoms";
+import { UploadedFiles } from "@/features/original-position-for/uploaded-files";
+import { LineInput } from "@/features/original-position-for/line-input";
+import { ColumnInput } from "@/features/original-position-for/column-input";
+import { UploadFiles } from "@/features/original-position-for/upload-files";
+import { ClearFilesButton } from "@/features/original-position-for/clear-files-button";
+import { Results } from "@/features/original-position-for/results";
+import { SubmitButton } from "@/features/original-position-for/submit-button";
+import { FileSelect } from "@/features/original-position-for/file-select";
 
 export default function SingleFileParser() {
   return (
-    <AtomsRoot>
+    <SingleAtomsRoot>
       <div className="max-w-4xl mx-auto p-4 space-y-6">
         <Card className="p-6 shadow-lg border-0 bg-gradient-to-br from-background to-muted/20">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -52,6 +52,6 @@ export default function SingleFileParser() {
 
         <Results />
       </div>
-    </AtomsRoot>
+    </SingleAtomsRoot>
   );
 }

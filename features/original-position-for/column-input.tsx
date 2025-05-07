@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useGeneratedColumn } from "../atoms";
+import { useGeneratedColumn } from "./atoms";
 
 export const ColumnInput = () => {
   const [generatedColumn, setGeneratedColumn] = useGeneratedColumn();

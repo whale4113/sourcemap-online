@@ -4,8 +4,8 @@ import {
   useLoading,
   useResults,
   useSourceMapConsumers,
-} from "@/app/original-position-for/client/atoms";
-import { useErrorStack } from "../atoms";
+  useErrorStack,
+} from "./atoms";
 import { getPureFileName } from "@/lib/utils";
 import { SourceMapConsumer } from "source-map-js";
 

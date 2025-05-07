@@ -1,7 +1,7 @@
 "use client";
 
 import { Textarea } from "@/components/ui/textarea";
-import { useErrorStack } from "../atoms";
+import { useErrorStack } from "./atoms";
 
 export const ErrorStackTextArea = () => {
   const [errorStack, setErrorStack] = useErrorStack();

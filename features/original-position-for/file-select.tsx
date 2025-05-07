@@ -7,8 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSourceMapConsumers } from "../../../client/atoms";
-import { useSelectedFile } from "../atoms";
+import { useSelectedFile, useSourceMapConsumers } from "./atoms";
 
 export const FileSelect = () => {
   const [sourceMapConsumers] = useSourceMapConsumers();

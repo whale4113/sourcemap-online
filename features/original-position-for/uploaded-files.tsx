@@ -2,7 +2,7 @@
 
 import { X, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useFiles } from "../atoms";
+import { useFiles } from "./atoms";
 
 export const UploadedFiles = () => {
   const [files, setFiles] = useFiles();

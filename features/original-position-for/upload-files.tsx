@@ -4,8 +4,13 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { SourceMapConsumer } from "source-map-js";
 import { Upload } from "lucide-react";
-import { FileUpload, useFiles } from "@/app/original-position-for/client/atoms";
-import { useError, useResults, useSourceMapConsumers } from "../atoms";
+import {
+  FileUpload,
+  useFiles,
+  useError,
+  useResults,
+  useSourceMapConsumers,
+} from "./atoms";
 
 export const UploadFiles = () => {
   const [, setFiles] = useFiles();

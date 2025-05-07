@@ -3,12 +3,10 @@ import {
   useLoading,
   useResults,
   useSourceMapConsumers,
-} from "@/app/original-position-for/client/atoms";
-import {
   useGeneratedColumn,
   useGeneratedLine,
   useSelectedFile,
-} from "../atoms";
+} from "./atoms";
 
 export const useParsePosition = () => {
   const [, setLoading] = useLoading();

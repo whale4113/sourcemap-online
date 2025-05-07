@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useGeneratedLine } from "../atoms";
+import { useGeneratedLine } from "./atoms";
 
 export const LineInput = () => {
   const [generatedLine, setGeneratedLine] = useGeneratedLine();

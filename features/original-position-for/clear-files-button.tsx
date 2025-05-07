@@ -2,12 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import {
-  useFiles,
-  useError,
-  useResults,
-  useSourceMapConsumers,
-} from "@/app/original-position-for/client/atoms";
+import { useFiles, useError, useResults, useSourceMapConsumers } from "./atoms";
 
 export const ClearFilesButton = () => {
   const [files, setFiles] = useFiles();

@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { useError, useResults } from "../atoms";
+import { useError, useResults } from "./atoms";
 
 export const Results = () => {
   const [error] = useError();

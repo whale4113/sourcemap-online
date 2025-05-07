@@ -1,16 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
-import { ClearFilesButton } from "../client/components/clear-files-button";
-import { UploadFiles } from "../client/components/upload-files";
-import { UploadedFiles } from "../client/components/uploaded-files";
-import { ErrorStackTextArea } from "./client/components/error-stack-textarea";
-import { SubmitButton } from "../client/components/submit-button";
-import { Results } from "../client/components/results";
-import { AtomsRoot } from "./client/atoms";
+import { ClearFilesButton } from "@/features/original-position-for/clear-files-button";
+import { UploadFiles } from "@/features/original-position-for/upload-files";
+import { UploadedFiles } from "@/features/original-position-for/uploaded-files";
+import { ErrorStackTextArea } from "@/features/original-position-for/error-stack-textarea";
+import { SubmitButton } from "@/features/original-position-for/submit-button";
+import { Results } from "@/features/original-position-for/results";
+import { MultiAtomsRoot } from "@/features/original-position-for/atoms";
 
 export default function MultiFileParser() {
   return (
-    <AtomsRoot>
+    <MultiAtomsRoot>
       <div className="max-w-4xl mx-auto p-4 space-y-6">
         <Card className="p-6 shadow-lg border-0 bg-gradient-to-br from-background to-muted/20">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -44,6 +44,6 @@ export default function MultiFileParser() {
 
         <Results />
       </div>
-    </AtomsRoot>
+    </MultiAtomsRoot>
   );
 }
