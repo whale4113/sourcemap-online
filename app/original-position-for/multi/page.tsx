@@ -13,15 +13,10 @@ export default function MultiFileParser() {
     <MultiAtomsRoot>
       <div className="max-w-4xl mx-auto p-4 space-y-6">
         <Card className="p-6 shadow-lg border-0 bg-gradient-to-br from-background to-muted/20">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div>
-              <h3 className="text-xl font-semibold text-foreground">
-                文件上传
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                支持 .js、.map 文件，单个文件最大 10MB
-              </p>
-            </div>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h3 className="text-xl font-semibold text-foreground">
+              上传 source map 文件
+            </h3>
             <ClearFilesButton />
           </div>
           <UploadFiles />

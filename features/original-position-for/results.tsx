@@ -62,10 +62,16 @@ export const Results = () => {
                       {result.source}
                     </p>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                      <p>行号：{result.line}</p>
-                      <p>列号：{result.column}</p>
-                      {result.name && (
-                        <p className="col-span-2">函数：{result.name}</p>
+                      {result.error ? (
+                        <p className="col-span-2 text-destructive">{result.error}</p>
+                      ) : (
+                        <>
+                          <p>行号：{result.line}</p>
+                          <p>列号：{result.column}</p>
+                          {result.name && (
+                            <p className="col-span-2">函数：{result.name}</p>
+                          )}
+                        </>
                       )}
                     </div>
                     {result.sourceContent && (

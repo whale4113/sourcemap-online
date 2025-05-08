@@ -10,8 +10,8 @@ export const UploadedFiles = () => {
   const removeFile = (index: number) => {
     const fileToRemove = files[index];
     setFiles((prev) => prev.filter((_, i) => i !== index));
-    
-    // 如果是 sourcemap 文件，同时删除对应的 consumer
+
+    // 如果是 source map 文件，同时删除对应的 consumer
     if (fileToRemove.type === "sourcemap") {
       setSourceMapConsumers((prev) => {
         const newMap = new Map(prev);
@@ -29,11 +29,8 @@ export const UploadedFiles = () => {
             key={index}
             className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-muted-foreground/10"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 whitespace-pre-wrap break-all">
               <span className="text-sm font-medium">{file.file.name}</span>
-              <span className="text-xs text-muted-foreground">
-                ({file.type === "sourcemap" ? "sourcemap" : "源文件"})
-              </span>
             </div>
             <button
               onClick={() => removeFile(index)}

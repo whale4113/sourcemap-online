@@ -1,3 +1,4 @@
+import { trimPathExtension } from "@/lib/utils";
 import {
   useError,
   useLoading,
@@ -43,13 +44,13 @@ export const useParsePosition = () => {
 
   const parsePosition = async () => {
     if (!selectedFileName) {
-      setError("请选择 sourcemap 文件");
+      setError("请选择 source map 文件");
       return;
     }
 
     const sourceMapConsumer = sourceMapConsumers.get(selectedFileName);
     if (!sourceMapConsumer) {
-      setError("请上传 sourcemap 文件并输入行号和列号");
+      setError("请上传 source map 文件并输入行号和列号");
       return;
     }
 
@@ -85,17 +86,19 @@ export const useParsePosition = () => {
       } else {
         setResults([
           {
-            source: "未知源文件",
+            source: trimPathExtension(selectedFileName),
             line: 0,
             column: 0,
-            name: `在 ${selectedFileName} 的 ${generatedLine}:${generatedColumn} 位置未找到对应的源文件映射`,
+            error: `在 ${trimPathExtension(
+              selectedFileName
+            )} 的 ${generatedLine}:${generatedColumn} 位置未找到对应的源文件映射`,
             status: "missing",
           },
         ]);
       }
       setError("");
     } catch (err) {
-      setError("解析 sourcemap 时发生错误");
+      setError("解析 source map 时发生错误");
       console.error(err);
     } finally {
       setLoading(false);

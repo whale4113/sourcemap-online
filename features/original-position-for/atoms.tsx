@@ -16,6 +16,7 @@ export interface ParsedResult {
   column: number;
   name?: string;
   status?: "success" | "missing";
+  error?: string;
   sourceContent?: {
     content: string;
     startLine: number;

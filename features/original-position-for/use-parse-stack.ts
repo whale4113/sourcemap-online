@@ -45,7 +45,7 @@ export const useParseStack = () => {
     }
 
     if (sourceMapConsumers.size === 0) {
-      setError("请上传 sourcemap 文件");
+      setError("请上传 source map 文件");
       return;
     }
 
@@ -71,7 +71,7 @@ export const useParseStack = () => {
             sourceMapName,
             consumer,
           ] of sourceMapConsumers.entries()) {
-            // 直接比较 sourcemap 文件名和堆栈文件名
+            // 直接比较 source map 文件名和堆栈文件名
             if (
               getPureFileName(getPureFileName(sourceMapName)) === stackFileName
             ) {
@@ -82,10 +82,10 @@ export const useParseStack = () => {
           // 如果找不到匹配的 consumer，添加未找到的结果
           if (matchedConsumers.length === 0) {
             results.push({
-              source: "未知源文件",
+              source: file,
               line: 0,
               column: 0,
-              name: `未找到 ${file} 对应的 sourcemap 文件，无法解析 ${line}:${column} 位置`,
+              error: `未找到 ${file} 对应的 source map 文件，无法解析 ${line}:${column} 位置`,
               status: "missing",
             });
             continue;
@@ -111,6 +111,14 @@ export const useParseStack = () => {
               name: originalPosition.name,
               status: "success",
               sourceContent,
+            });
+          } else {
+            results.push({
+              source: file,
+              line: 0,
+              column: 0,
+              error: `在 ${file} 的 ${line}:${column} 位置未找到对应的源文件映射`,
+              status: "missing",
             });
           }
         }

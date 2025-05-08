@@ -29,9 +29,7 @@ export const UploadFiles = () => {
         .filter((f) => !existingFileNames.has(f.name))
         .map((file) => ({
           file,
-          type: file.name.endsWith(".map")
-            ? ("sourcemap" as const)
-            : ("source" as const),
+          type: "sourcemap" as const,
         }));
 
       if (newFiles.length === 0) {
@@ -42,19 +40,17 @@ export const UploadFiles = () => {
       setError("");
 
       for (const newFile of newFiles) {
-        if (newFile.type === "sourcemap") {
-          try {
-            const fileContent = await readFileAsText(newFile.file);
-            const sourceMapData = JSON.parse(fileContent);
-            const consumer = new SourceMapConsumer(sourceMapData);
-            setSourceMapConsumers((prev) =>
-              new Map(prev).set(newFile.file.name, consumer)
-            );
-          } catch (error) {
-            console.error(error);
-
-            toast(`\n解析 ${newFile.file.name} 失败`);
-          }
+        try {
+          const fileContent = await readFileAsText(newFile.file);
+          const sourceMapData = JSON.parse(fileContent);
+          const consumer = new SourceMapConsumer(sourceMapData);
+          setSourceMapConsumers((prev) =>
+            new Map(prev).set(newFile.file.name, consumer)
+          );
+        } catch (error) {
+          console.error(error);
+          toast(`\n解析 ${newFile.file.name} 失败`);
+          continue;
         }
 
         setFiles((prev) => {
@@ -69,7 +65,6 @@ export const UploadFiles = () => {
     onDrop,
     accept: {
       "application/json": [".map"],
-      "text/javascript": [".js"],
     },
     maxSize: 10 * 1024 * 1024, // 10MB
     multiple: true,
@@ -96,9 +91,7 @@ export const UploadFiles = () => {
         ) : (
           <div className="space-y-1">
             <p className="font-medium">拖放文件到这里，或点击选择文件</p>
-            <p className="text-sm text-muted-foreground">
-              支持源文件和 sourcemap 文件
-            </p>
+            <p className="text-sm text-muted-foreground">单个文件最大 10MB</p>
           </div>
         )}
       </div>

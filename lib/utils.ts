@@ -60,3 +60,6 @@ export const withStateLock = <T extends Inner>(
     return result;
   };
 };
+
+export const trimPathExtension = (path: string, ext = "map"): string =>
+  path.replace(new RegExp(`\\.${ext}$`), "");

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { useSelectedFileName, useSourceMapConsumers } from "./atoms";
 import { useEffect, useMemo } from "react";
+import { trimPathExtension } from "@/lib/utils";
 
 export const FileSelect = () => {
   const [sourceMapConsumers] = useSourceMapConsumers();
@@ -38,12 +39,12 @@ export const FileSelect = () => {
         }}
       >
         <SelectTrigger>
-          <SelectValue placeholder="选择 sourcemap 文件" />
+          <SelectValue placeholder="选择 source map 文件" />
         </SelectTrigger>
         <SelectContent>
           {files.map((file) => (
             <SelectItem key={file} value={file}>
-              {file}
+              {trimPathExtension(file)}
             </SelectItem>
           ))}
         </SelectContent>
