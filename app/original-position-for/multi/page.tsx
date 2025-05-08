@@ -19,7 +19,7 @@ export default function MultiFileParser() {
                 文件上传
               </h3>
               <p className="text-sm text-muted-foreground mt-1">
-                支持 .js、.map、.txt 和 .zip 文件，单个文件最大 10MB
+                支持 .js、.map 文件，单个文件最大 10MB
               </p>
             </div>
             <ClearFilesButton />

@@ -5,7 +5,7 @@ import {
   useSourceMapConsumers,
   useGeneratedColumn,
   useGeneratedLine,
-  useSelectedFile,
+  useSelectedFileName,
 } from "./atoms";
 
 export const useParsePosition = () => {
@@ -14,17 +14,17 @@ export const useParsePosition = () => {
   const [sourceMapConsumers] = useSourceMapConsumers();
   const [, setResults] = useResults();
 
-  const [selectedFile] = useSelectedFile();
+  const [selectedFileName] = useSelectedFileName();
   const [generatedLine] = useGeneratedLine();
   const [generatedColumn] = useGeneratedColumn();
 
   const parsePosition = async () => {
-    if (!selectedFile) {
+    if (!selectedFileName) {
       setError("请选择 sourcemap 文件");
       return;
     }
 
-    const sourceMapConsumer = sourceMapConsumers.get(selectedFile.file.name);
+    const sourceMapConsumer = sourceMapConsumers.get(selectedFileName);
     if (!sourceMapConsumer) {
       setError("请上传 sourcemap 文件并输入行号和列号");
       return;
@@ -49,12 +49,21 @@ export const useParsePosition = () => {
             line: originalPosition.line || 0,
             column: originalPosition.column || 0,
             name: originalPosition.name,
+            status: "success",
           },
         ]);
-        setError("");
       } else {
-        setError("未找到对应的源文件位置");
+        setResults([
+          {
+            source: "未知源文件",
+            line: 0,
+            column: 0,
+            name: `在 ${selectedFileName} 的 ${generatedLine}:${generatedColumn} 位置未找到对应的源文件映射`,
+            status: "missing",
+          },
+        ]);
       }
+      setError("");
     } catch (err) {
       setError("解析 sourcemap 时发生错误");
       console.error(err);

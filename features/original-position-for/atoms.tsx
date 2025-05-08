@@ -15,6 +15,7 @@ export interface ParsedResult {
   line: number;
   column: number;
   name?: string;
+  status?: "success" | "missing";
 }
 
 export enum ParseMode {
@@ -64,7 +65,7 @@ export const MultiAtomsRoot = ({
 export const useErrorStack = createAtom<MultiAtoms>()("errorStack");
 
 interface SingleAtoms extends SharedAtoms {
-  selectedFile: FileUpload | null;
+  selectedFileName: string | null;
   generatedLine: number;
   generatedColumn: number;
 }
@@ -73,7 +74,7 @@ const SingleStore = createStore<SingleAtoms>(() => ({
   mode: ParseMode.Single,
   files: [],
   sourceMapConsumers: new Map(),
-  selectedFile: null,
+  selectedFileName: null,
   generatedLine: 1,
   generatedColumn: 0,
   results: [],
@@ -89,6 +90,6 @@ export const SingleAtomsRoot = ({
   <StoreContext.Provider value={SingleStore}>{children}</StoreContext.Provider>
 );
 
-export const useSelectedFile = createAtom<SingleAtoms>()("selectedFile");
+export const useSelectedFileName = createAtom<SingleAtoms>()("selectedFileName");
 export const useGeneratedLine = createAtom<SingleAtoms>()("generatedLine");
 export const useGeneratedColumn = createAtom<SingleAtoms>()("generatedColumn");

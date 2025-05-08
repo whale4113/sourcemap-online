@@ -57,16 +57,19 @@ export const useParseStack = () => {
             }
           }
 
-          // 如果找不到匹配的 consumer，使用第一个可用的
-          const consumer =
-            matchedConsumers.length > 0
-              ? matchedConsumers[0] // 暂时使用第一个匹配的 consumer
-              : Array.from(sourceMapConsumers.values())[0];
-
-          if (!consumer) {
+          // 如果找不到匹配的 consumer，添加未找到的结果
+          if (matchedConsumers.length === 0) {
+            results.push({
+              source: "未知源文件",
+              line: 0,
+              column: 0,
+              name: `未找到 ${file} 对应的 sourcemap 文件，无法解析 ${line}:${column} 位置`,
+              status: "missing",
+            });
             continue;
           }
 
+          const consumer = matchedConsumers[0];
           const originalPosition = consumer.originalPositionFor({
             line: parseInt(line),
             column: parseInt(column),
@@ -78,6 +81,7 @@ export const useParseStack = () => {
               line: originalPosition.line || 0,
               column: originalPosition.column || 0,
               name: originalPosition.name,
+              status: "success",
             });
           }
         }

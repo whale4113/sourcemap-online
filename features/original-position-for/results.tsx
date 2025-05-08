@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import { useError, useResults } from "./atoms";
 
 export const Results = () => {
@@ -29,10 +29,18 @@ export const Results = () => {
             {results.map((result, index) => (
               <div
                 key={index}
-                className="p-4 bg-muted/30 rounded-lg border border-muted-foreground/10"
+                className={`p-4 rounded-lg border ${
+                  result.status === "missing"
+                    ? "bg-destructive/5 border-destructive/20"
+                    : "bg-muted/30 border-muted-foreground/10"
+                }`}
               >
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  {result.status === "missing" ? (
+                    <XCircle className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
+                  ) : (
+                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  )}
                   <div className="space-y-1.5">
                     <p className="font-medium">{result.source}</p>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-muted-foreground">

@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { SourceMapConsumer } from "source-map-js";
 import { Upload } from "lucide-react";
+import { toast } from "sonner";
 import {
   FileUpload,
   useFiles,
@@ -11,52 +12,57 @@ import {
   useResults,
   useSourceMapConsumers,
 } from "./atoms";
+import { readFileAsText, State, withStateLock } from "@/lib/utils";
 
 export const UploadFiles = () => {
-  const [, setFiles] = useFiles();
+  const [files, setFiles] = useFiles();
   const [, setError] = useError();
   const [, setResults] = useResults();
-
   const [, setSourceMapConsumers] = useSourceMapConsumers();
 
+  const stateRef = useRef(State.Idle);
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const newFiles: FileUpload[] = acceptedFiles.map((file) => ({
-        file,
-        type: file.name.endsWith(".map")
-          ? ("sourcemap" as const)
-          : ("source" as const),
-      }));
+    withStateLock(stateRef, async (acceptedFiles: File[]) => {
+      const existingFileNames = new Set(files.map((f) => f.file.name));
 
-      setFiles((prev) => [...prev, ...newFiles]);
+      const newFiles: FileUpload[] = acceptedFiles
+        .filter((f) => !existingFileNames.has(f.name))
+        .map((file) => ({
+          file,
+          type: file.name.endsWith(".map")
+            ? ("sourcemap" as const)
+            : ("source" as const),
+        }));
+
+      if (newFiles.length === 0) {
+        return;
+      }
+
       setResults([]);
       setError("");
 
-      // 处理 sourcemap 文件
-      const sourceMapFiles = newFiles.filter((f) => f.type === "sourcemap");
-      sourceMapFiles.forEach((fileUpload) => {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          if (event.target?.result) {
-            try {
-              const sourceMapData = JSON.parse(event.target.result as string);
-              const consumer = await new SourceMapConsumer(sourceMapData);
-              setSourceMapConsumers((prev) =>
-                new Map(prev).set(fileUpload.file.name, consumer)
-              );
-            } catch (err) {
-              console.error("解析 sourcemap 文件失败:", err);
-              setError((prev) => prev + `\n解析 ${fileUpload.file.name} 失败`);
-            }
+      for (const newFile of newFiles) {
+        if (newFile.type === "sourcemap") {
+          try {
+            const fileContent = await readFileAsText(newFile.file);
+            const sourceMapData = JSON.parse(fileContent);
+            const consumer = new SourceMapConsumer(sourceMapData);
+            setSourceMapConsumers((prev) =>
+              new Map(prev).set(newFile.file.name, consumer)
+            );
+          } catch (error) {
+            console.error(error);
+
+            toast(`\n解析 ${newFile.file.name} 失败`);
           }
-        };
-        reader.onerror = () => {
-          setError((prev) => prev + `\n读取 ${fileUpload.file.name} 失败`);
-        };
-        reader.readAsText(fileUpload.file);
-      });
-    },
-    [setError, setFiles, setResults, setSourceMapConsumers]
+        }
+
+        setFiles((prev) => {
+          return [...prev, newFile];
+        });
+      }
+    }),
+    [files, setError, setFiles, setResults, setSourceMapConsumers]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -64,8 +70,6 @@ export const UploadFiles = () => {
     accept: {
       "application/json": [".map"],
       "text/javascript": [".js"],
-      "text/plain": [".txt"],
-      "application/zip": [".zip"],
     },
     maxSize: 10 * 1024 * 1024, // 10MB
     multiple: true,

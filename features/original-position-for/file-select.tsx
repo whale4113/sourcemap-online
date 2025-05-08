@@ -7,25 +7,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSelectedFile, useSourceMapConsumers } from "./atoms";
+import { useSelectedFileName, useSourceMapConsumers } from "./atoms";
+import { useEffect, useMemo } from "react";
 
 export const FileSelect = () => {
   const [sourceMapConsumers] = useSourceMapConsumers();
-  const [selectedFile, setSelectedFile] = useSelectedFile();
+  const [selectedFileName, setSelectedFileName] = useSelectedFileName();
+
+  const files = useMemo(
+    () => Array.from(sourceMapConsumers.keys()),
+    [sourceMapConsumers]
+  );
+  useEffect(() => {
+    if (selectedFileName && !files.includes(selectedFileName)) {
+      setSelectedFileName(files.at(0) ?? null);
+    }
+  }, [selectedFileName, files]);
 
   return (
     sourceMapConsumers.size > 0 && (
       <Select
-        value={selectedFile?.file.name || ""}
+        value={selectedFileName ?? undefined}
         onValueChange={(newSelectedFile) => {
           const file = Array.from(sourceMapConsumers.keys()).find(
             (key) => key === newSelectedFile
           );
           if (file) {
-            setSelectedFile({
-              file: new File([], file),
-              type: "sourcemap",
-            });
+            setSelectedFileName(file);
           }
         }}
       >
@@ -33,7 +41,7 @@ export const FileSelect = () => {
           <SelectValue placeholder="选择 sourcemap 文件" />
         </SelectTrigger>
         <SelectContent>
-          {Array.from(sourceMapConsumers.keys()).map((file) => (
+          {files.map((file) => (
             <SelectItem key={file} value={file}>
               {file}
             </SelectItem>

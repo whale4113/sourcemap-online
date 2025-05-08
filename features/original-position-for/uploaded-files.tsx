@@ -1,45 +1,48 @@
 "use client";
 
-import { X, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useFiles } from "./atoms";
+import { X } from "lucide-react";
+import { useFiles, useSourceMapConsumers } from "./atoms";
 
 export const UploadedFiles = () => {
   const [files, setFiles] = useFiles();
+  const [, setSourceMapConsumers] = useSourceMapConsumers();
 
   const removeFile = (index: number) => {
+    const fileToRemove = files[index];
     setFiles((prev) => prev.filter((_, i) => i !== index));
+    
+    // 如果是 sourcemap 文件，同时删除对应的 consumer
+    if (fileToRemove.type === "sourcemap") {
+      setSourceMapConsumers((prev) => {
+        const newMap = new Map(prev);
+        newMap.delete(fileToRemove.file.name);
+        return newMap;
+      });
+    }
   };
 
   return (
     files.length > 0 && (
-      <div className="mt-6">
-        <h3 className="text-sm font-medium text-muted-foreground mb-3">
-          已上传文件
-        </h3>
-        <div className="space-y-2">
-          {files.map((fileUpload, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center p-3 bg-muted/30 rounded-lg"
-            >
-              <div className="flex items-center gap-3">
-                <FileText className="h-5 w-5 text-muted-foreground" />
-                <span className="text-sm font-medium">
-                  {fileUpload.file.name}
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => removeFile(index)}
-                className="text-foreground"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+      <div className="mt-4 space-y-2">
+        {files.map((file, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-muted-foreground/10"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">{file.file.name}</span>
+              <span className="text-xs text-muted-foreground">
+                ({file.type === "sourcemap" ? "sourcemap" : "源文件"})
+              </span>
             </div>
-          ))}
-        </div>
+            <button
+              onClick={() => removeFile(index)}
+              className="p-1 hover:bg-muted-foreground/10 rounded-md transition-colors"
+            >
+              <X className="h-4 w-4 text-muted-foreground" />
+            </button>
+          </div>
+        ))}
       </div>
     )
   );
