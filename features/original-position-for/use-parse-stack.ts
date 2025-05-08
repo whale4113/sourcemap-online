@@ -9,6 +9,28 @@ import {
 import { getPureFileName } from "@/lib/utils";
 import { SourceMapConsumer } from "source-map-js";
 
+const getSourceContent = (
+  consumer: SourceMapConsumer,
+  source: string,
+  line: number,
+  contextLines: number = 4
+): ParsedResult["sourceContent"] => {
+  const content = consumer.sourceContentFor(source);
+  if (!content) return undefined;
+
+  const lines = content.split("\n");
+  const startLine = Math.max(0, line - contextLines - 1);
+  const endLine = Math.min(lines.length, line + contextLines);
+  const highlightLine = line - startLine;
+
+  return {
+    content: lines.slice(startLine, endLine).join("\n"),
+    startLine: startLine + 1,
+    endLine,
+    highlightLine,
+  };
+};
+
 export const useParseStack = () => {
   const [, setLoading] = useLoading();
   const [, setError] = useError();
@@ -76,12 +98,19 @@ export const useParseStack = () => {
           });
 
           if (originalPosition && originalPosition.source) {
+            const sourceContent = getSourceContent(
+              consumer,
+              originalPosition.source,
+              originalPosition.line || 0
+            );
+
             results.push({
               source: originalPosition.source,
               line: originalPosition.line || 0,
               column: originalPosition.column || 0,
               name: originalPosition.name,
               status: "success",
+              sourceContent,
             });
           }
         }

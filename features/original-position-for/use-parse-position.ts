@@ -7,6 +7,29 @@ import {
   useGeneratedLine,
   useSelectedFileName,
 } from "./atoms";
+import { SourceMapConsumer } from "source-map-js";
+
+const getSourceContent = (
+  consumer: SourceMapConsumer,
+  source: string,
+  line: number,
+  contextLines: number = 4
+) => {
+  const content = consumer.sourceContentFor(source);
+  if (!content) return undefined;
+
+  const lines = content.split("\n");
+  const startLine = Math.max(0, line - contextLines - 1);
+  const endLine = Math.min(lines.length, line + contextLines);
+  const highlightLine = line - startLine;
+
+  return {
+    content: lines.slice(startLine, endLine).join("\n"),
+    startLine: startLine + 1,
+    endLine,
+    highlightLine,
+  };
+};
 
 export const useParsePosition = () => {
   const [, setLoading] = useLoading();
@@ -43,6 +66,12 @@ export const useParsePosition = () => {
       });
 
       if (originalPosition && originalPosition.source) {
+        const sourceContent = getSourceContent(
+          sourceMapConsumer,
+          originalPosition.source,
+          originalPosition.line || 0
+        );
+
         setResults([
           {
             source: originalPosition.source,
@@ -50,6 +79,7 @@ export const useParsePosition = () => {
             column: originalPosition.column || 0,
             name: originalPosition.name,
             status: "success",
+            sourceContent,
           },
         ]);
       } else {

@@ -16,6 +16,12 @@ export interface ParsedResult {
   column: number;
   name?: string;
   status?: "success" | "missing";
+  sourceContent?: {
+    content: string;
+    startLine: number;
+    endLine: number;
+    highlightLine: number;
+  };
 }
 
 export enum ParseMode {

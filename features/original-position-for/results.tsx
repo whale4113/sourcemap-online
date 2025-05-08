@@ -4,6 +4,22 @@ import { Card } from "@/components/ui/card";
 import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import { useError, useResults } from "./atoms";
 
+const highlightFunctionName = (
+  line: string,
+  functionName?: string,
+  column?: number
+) => {
+  if (!functionName || !column) return line;
+
+  return (
+    <>
+      {line.slice(0, column)}
+      <span className="text-yellow-500 font-semibold">{functionName}</span>
+      {line.slice(column + functionName.length)}
+    </>
+  );
+};
+
 export const Results = () => {
   const [error] = useError();
   const [results] = useResults();
@@ -35,14 +51,16 @@ export const Results = () => {
                     : "bg-muted/30 border-muted-foreground/10"
                 }`}
               >
-                <div className="flex items-start gap-3">
+                <div className="w-full flex items-start gap-3">
                   {result.status === "missing" ? (
                     <XCircle className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
                   ) : (
                     <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   )}
-                  <div className="space-y-1.5">
-                    <p className="font-medium">{result.source}</p>
+                  <div className="space-y-1.5 flex-1 overflow-x-auto">
+                    <p className="font-medium whitespace-pre-wrap break-all">
+                      {result.source}
+                    </p>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-muted-foreground">
                       <p>行号：{result.line}</p>
                       <p>列号：{result.column}</p>
@@ -50,6 +68,44 @@ export const Results = () => {
                         <p className="col-span-2">函数：{result.name}</p>
                       )}
                     </div>
+                    {result.sourceContent && (
+                      <div className="mt-4">
+                        <div className="text-sm text-muted-foreground mb-2">
+                          源码内容：
+                        </div>
+                        <div className="relative">
+                          <pre className="p-3 bg-muted/50 rounded-md text-sm font-mono overflow-x-auto">
+                            {result.sourceContent.content
+                              .split("\n")
+                              .map((line, i) => (
+                                <div
+                                  key={i}
+                                  className={`w-max whitespace-nowrap ${
+                                    i ===
+                                    result.sourceContent!.highlightLine - 1
+                                      ? "bg-primary/10"
+                                      : ""
+                                  }`}
+                                >
+                                  <span className="text-muted-foreground mr-4 select-none inline-block min-w-[3ch]">
+                                    {result.sourceContent!.startLine + i}
+                                  </span>
+                                  <span className="inline-block">
+                                    {i ===
+                                    result.sourceContent!.highlightLine - 1
+                                      ? highlightFunctionName(
+                                          line,
+                                          result.name,
+                                          result.column
+                                        )
+                                      : line}
+                                  </span>
+                                </div>
+                              ))}
+                          </pre>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
