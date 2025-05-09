@@ -36,6 +36,7 @@ export enum State {
   Busy,
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Inner = (...args: any[]) => Promise<any> | any;
 
 export const withStateLock = <T extends Inner>(
