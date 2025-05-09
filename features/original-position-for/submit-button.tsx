@@ -35,7 +35,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
       {loading ? (
         <div className="flex items-center gap-2">
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-          解析中...
+          Parsing...
         </div>
       ) : (
         children

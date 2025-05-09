@@ -21,8 +21,8 @@ export function Nav() {
           )}
         >
           <FileText className="h-5 w-5 mr-2" />
-          <span className="hidden sm:inline">单文件解析</span>
-          <span className="sm:hidden">单文件</span>
+          <span className="hidden sm:inline">Single File Parser</span>
+          <span className="sm:hidden">Single</span>
         </Link>
         <Link
           href="/original-position-for/multi"
@@ -33,8 +33,8 @@ export function Nav() {
           )}
         >
           <Files className="h-5 w-5 mr-2" />
-          <span className="hidden sm:inline">多文件解析</span>
-          <span className="sm:hidden">多文件</span>
+          <span className="hidden sm:inline">Error Stack Parser</span>
+          <span className="sm:hidden">Stack</span>
         </Link>
       </div>
     </Card>

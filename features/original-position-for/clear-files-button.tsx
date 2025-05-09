@@ -26,7 +26,7 @@ export const ClearFilesButton = () => {
         className="flex items-center gap-2 text-foreground"
       >
         <X className="h-4 w-4" />
-        清除所有文件
+        Clear All Files
       </Button>
     )
   );

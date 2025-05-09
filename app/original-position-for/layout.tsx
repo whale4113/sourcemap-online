@@ -15,7 +15,7 @@ export default function RootLayout({
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold">Source Map 堆栈解析器</h1>
+          <h1 className="text-2xl font-bold">Source Map Parser</h1>
         </div>
       </header>
       <main className="container mx-auto p-4">

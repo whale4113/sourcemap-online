@@ -36,9 +36,9 @@ export const Results = () => {
       {results.length > 0 && (
         <Card className="p-6 shadow-lg border-0 bg-gradient-to-br from-background to-muted/20">
           <div className="flex items-center gap-2 mb-4">
-            <h3 className="text-xl font-semibold">解析结果</h3>
+            <h3 className="text-xl font-semibold">Parse Results</h3>
             <span className="text-sm text-muted-foreground">
-              ({results.length} 个位置)
+              ({results.length} positions)
             </span>
           </div>
           <div className="space-y-4">
@@ -66,10 +66,10 @@ export const Results = () => {
                         <p className="col-span-2 text-destructive">{result.error}</p>
                       ) : (
                         <>
-                          <p>行号：{result.line}</p>
-                          <p>列号：{result.column}</p>
+                          <p>Line: {result.line}</p>
+                          <p>Column: {result.column}</p>
                           {result.name && (
-                            <p className="col-span-2">函数：{result.name}</p>
+                            <p className="col-span-2">Function: {result.name}</p>
                           )}
                         </>
                       )}
@@ -77,7 +77,7 @@ export const Results = () => {
                     {result.sourceContent && (
                       <div className="mt-4">
                         <div className="text-sm text-muted-foreground mb-2">
-                          源码内容：
+                          Source Content:
                         </div>
                         <div className="relative">
                           <pre className="p-3 bg-muted/50 rounded-md text-sm font-mono overflow-x-auto">

@@ -87,11 +87,11 @@ export const UploadFiles = () => {
       <div className="flex flex-col items-center gap-3">
         <Upload className="h-8 w-8 text-muted-foreground" />
         {isDragActive ? (
-          <p className="text-primary font-medium">将文件拖放到这里...</p>
+          <p className="text-primary font-medium">Drop files here...</p>
         ) : (
           <div className="space-y-1">
-            <p className="font-medium">拖放文件到这里，或点击选择文件</p>
-            <p className="text-sm text-muted-foreground">单个文件最大 10MB</p>
+            <p className="font-medium">Drag and drop files here, or click to select files</p>
+            <p className="text-sm text-muted-foreground">Max file size: 10MB</p>
           </div>
         )}
       </div>

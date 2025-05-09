@@ -40,12 +40,12 @@ export const useParseStack = () => {
 
   const parseStack = async () => {
     if (!errorStack.trim()) {
-      setError("请输入错误堆栈信息");
+      setError("Please input error stack information");
       return;
     }
 
     if (sourceMapConsumers.size === 0) {
-      setError("请上传 source map 文件");
+      setError("Please upload source map files");
       return;
     }
 
@@ -55,7 +55,6 @@ export const useParseStack = () => {
       const results: ParsedResult[] = [];
 
       for (const line of lines) {
-        // 使用正则表达式的 exec 方法进行多次匹配
         const regex =
           /(?:at\s+(?:\w+\.)?(?:\w+)\s+)?(?:\(?)([^:]+):(\d+):(\d+)(?:\)?)/g;
         let match;
@@ -63,7 +62,6 @@ export const useParseStack = () => {
         while ((match = regex.exec(line)) !== null) {
           const [, file, line, column] = match;
 
-          // 尝试找到匹配的 consumer
           const matchedConsumers: SourceMapConsumer[] = [];
           const stackFileName = getPureFileName(file);
 
@@ -71,7 +69,6 @@ export const useParseStack = () => {
             sourceMapName,
             consumer,
           ] of sourceMapConsumers.entries()) {
-            // 直接比较 source map 文件名和堆栈文件名
             if (
               getPureFileName(getPureFileName(sourceMapName)) === stackFileName
             ) {
@@ -79,13 +76,12 @@ export const useParseStack = () => {
             }
           }
 
-          // 如果找不到匹配的 consumer，添加未找到的结果
           if (matchedConsumers.length === 0) {
             results.push({
               source: file,
               line: 0,
               column: 0,
-              error: `未找到 ${file} 对应的 source map 文件，无法解析 ${line}:${column} 位置`,
+              error: `No source map file found for ${file}, cannot parse position ${line}:${column}`,
               status: "missing",
             });
             continue;
@@ -117,7 +113,7 @@ export const useParseStack = () => {
               source: file,
               line: 0,
               column: 0,
-              error: `在 ${file} 的 ${line}:${column} 位置未找到对应的源文件映射`,
+              error: `No source file mapping found at position ${line}:${column} in ${file}`,
               status: "missing",
             });
           }
@@ -127,7 +123,7 @@ export const useParseStack = () => {
       setResults(results);
       setError("");
     } catch (err) {
-      setError("解析堆栈时发生错误");
+      setError("Error parsing stack trace");
       console.error(err);
     } finally {
       setLoading(false);

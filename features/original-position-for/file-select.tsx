@@ -39,7 +39,7 @@ export const FileSelect = () => {
         }}
       >
         <SelectTrigger>
-          <SelectValue placeholder="选择 source map 文件" />
+          <SelectValue placeholder="Select source file" />
         </SelectTrigger>
         <SelectContent>
           {files.map((file) => (

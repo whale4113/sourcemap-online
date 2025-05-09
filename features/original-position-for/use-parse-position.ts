@@ -44,18 +44,20 @@ export const useParsePosition = () => {
 
   const parsePosition = async () => {
     if (!selectedFileName) {
-      setError("请选择 source map 文件");
+      setError("Please select a source map file");
       return;
     }
 
     const sourceMapConsumer = sourceMapConsumers.get(selectedFileName);
     if (!sourceMapConsumer) {
-      setError("请上传 source map 文件并输入行号和列号");
+      setError(
+        "Please upload a source map file and input line and column numbers"
+      );
       return;
     }
 
     if (!generatedLine || !generatedColumn) {
-      setError("请输入行号和列号");
+      setError("Please input line and column numbers");
       return;
     }
 
@@ -89,16 +91,16 @@ export const useParsePosition = () => {
             source: trimPathExtension(selectedFileName),
             line: 0,
             column: 0,
-            error: `在 ${trimPathExtension(
+            error: `No source file mapping found at position ${generatedLine}:${generatedColumn} in ${trimPathExtension(
               selectedFileName
-            )} 的 ${generatedLine}:${generatedColumn} 位置未找到对应的源文件映射`,
+            )})}`,
             status: "missing",
           },
         ]);
       }
       setError("");
     } catch (err) {
-      setError("解析 source map 时发生错误");
+      setError("Error parsing source map");
       console.error(err);
     } finally {
       setLoading(false);

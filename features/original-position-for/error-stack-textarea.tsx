@@ -11,7 +11,7 @@ export const ErrorStackTextArea = () => {
       id="error-stack"
       value={errorStack}
       onChange={(e) => setErrorStack(e.target.value)}
-      placeholder="粘贴错误堆栈信息..."
+      placeholder="Paste error stack information..."
       className="min-h-[200px] resize-y font-mono text-sm"
     />
   );
