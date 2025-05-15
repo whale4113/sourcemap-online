@@ -88,6 +88,11 @@ export default function RootLayout({
         </ThemeProvider>
         <Toaster />
         <GoogleAnalytics gaId="G-L61TTVLT2K" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9339016402558827"
+          crossOrigin="anonymous"
+        ></script>
       </body>
     </html>
   );
