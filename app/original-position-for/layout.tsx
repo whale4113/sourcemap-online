@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Nav } from "@/features/original-position-for/nav";
-import { repository } from "@/package.json";
+import packageJson from "@/package.json";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Github } from "@/components/icons";
 
@@ -23,7 +23,7 @@ export default function RootLayout({
           <div className="flex items-center gap-2">
             <ModeToggle />
             <a
-              href={repository.url.slice(0, -".git".length)}
+              href={packageJson.repository.url.slice(0, -".git".length)}
               target="_blank"
               aria-label="GitHub Repository"
             >
