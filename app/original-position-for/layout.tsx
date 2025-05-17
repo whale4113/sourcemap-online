@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { Button } from "@/components/ui/button";
 import { Nav } from "@/features/original-position-for/nav";
+import packageJson from "@/package.json";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Github } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,8 +18,20 @@ export default function RootLayout({
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Source Map Parser</h1>
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+            <a
+              href={packageJson.repository.url.slice(0, -".git".length)}
+              target="_blank"
+              aria-label="GitHub Repository"
+            >
+              <Button variant="outline" size="icon">
+                <Github strokeWidth={0} fill="currentColor" />
+              </Button>
+            </a>
+          </div>
         </div>
       </header>
       <main className="container mx-auto p-4">

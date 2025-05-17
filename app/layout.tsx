@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { env } from "@/lib/env";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -87,12 +88,16 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <Toaster />
-        <GoogleAnalytics gaId="G-L61TTVLT2K" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9339016402558827"
-          crossOrigin="anonymous"
-        ></script>
+        {env.NEXT_PUBLIC_GA_ID !== undefined && (
+          <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID} />
+        )}
+        {env.NEXT_PUBLIC_GOOGLE_ADSENSE_ACCOUNT !== undefined && (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.NEXT_PUBLIC_GOOGLE_ADSENSE_ACCOUNT}`}
+            crossOrigin="anonymous"
+          ></script>
+        )}
       </body>
     </html>
   );
