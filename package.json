@@ -2,6 +2,16 @@
   "name": "sourcemap-online",
   "version": "0.1.0",
   "private": true,
+  "description": "Online JavaScript Source Map parser, supporting single file parsing and error stack parsing, helping developers quickly locate source code positions.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whale4113/sourcemap-online.git"
+  },
+  "homepage": "https://github.com/whale4113/sourcemap-online#readme",
+  "bugs": {
+    "url": "https://github.com/whale4113/sourcemap-online/issues"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
